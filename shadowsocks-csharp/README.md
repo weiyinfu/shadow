@@ -1,116 +1,120 @@
-backup of [https://github.com/shadowsocks/shadowsocks](https://github.com/shadowsocks/shadowsocks)  
-copy from [release 2.8.2](https://github.com/shadowsocks/shadowsocks/releases/tag/2.8.2)
+Shadowsocks for Windows
+=======================
 
-shadowsocks
-===========
+[![Build Status]][Appveyor]
 
-[![PyPI version]][PyPI]
-[![Build Status]][Travis CI]
-[![Coverage Status]][Coverage]
+[中文说明]
 
-A fast tunnel proxy that helps you bypass firewalls.
+#### Features
 
-Features:
-- TCP & UDP support
-- User management API
-- TCP Fast Open
-- Workers and graceful restart
-- Destination IP blacklist
+1. System proxy configuration
+2. PAC mode and global mode
+3. [GFWList] and user rules
+4. Supports HTTP proxy
+5. Supports server auto switching
+6. Supports UDP relay (see Usage)
+7. Supports plugins
 
-Server
-------
+#### Download
 
-### Install
+Download the [latest release].
 
-Debian / Ubuntu:
+#### Requirements
 
-    apt-get install python-pip
-    pip install shadowsocks
+Microsoft [.NET Framework 4.6.2] or higher. 
 
-CentOS:
+#### Basic
 
-    yum install python-setuptools && easy_install pip
-    pip install shadowsocks
+1. Find Shadowsocks icon in the notification tray
+2. You can add multiple servers in servers menu
+3. Select `Enable System Proxy` menu to enable system proxy. Please disable other
+proxy addons in your browser, or set them to use system proxy
+4. You can also configure your browser proxy manually if you don't want to enable
+system proxy. Set Socks5 or HTTP proxy to 127.0.0.1:1080. You can change this
+port in `Servers -> Edit Servers`
 
-Windows:
+#### PAC
 
-See [Install Server on Windows]
+1. You can change PAC rules by editing the PAC file. When you save the PAC file
+with any editor, Shadowsocks will notify browsers about the change automatically
+2. You can also update PAC file from [GFWList] \(maintained by 3rd party)
+3. You can also use online PAC URL
 
-### Usage
+#### Server Auto Switching
 
-    ssserver -p 443 -k password -m aes-256-cfb
+1. Load balance: choosing server randomly
+2. High availability: choosing the best server (low latency and packet loss)
+3. Choose By Total Package Loss: ping and choose. Please also enable
+   `Availability Statistics` in the menu if you want to use this
+4. Write your own strategy by implement IStrategy interface and send us a pull request!
 
-To run in the background:
+#### UDP
 
-    sudo ssserver -p 443 -k password -m aes-256-cfb --user nobody -d start
+For UDP, you need to use SocksCap or ProxyCap to force programs you want
+to be proxied to tunnel over Shadowsocks
 
-To stop:
+#### Multiple Instances
 
-    sudo ssserver -d stop
+If you want to manage multiple servers using other tools like SwitchyOmega,
+you can start multiple Shadowsocks instances. To avoid configuration conflicts,
+copy Shadowsocks to a new directory and choose a different local port.
 
-To check the log:
+#### Plugins
 
-    sudo less /var/log/shadowsocks.log
+If you would like to connect to server via a plugin, please set the plugin's
+path (relative or absolute) on Edit Servers form.
+Note: Forward Proxy will not be used while a plugin is enabled.
 
-Check all the options via `-h`. You can also use a [Configuration] file
-instead.
+#### Global hotkeys
 
-Client
-------
+Hotkeys are NOT registered automatically. You should re-register all hotkeys after
+restarting Shadowsocks. If you are using multiple instances of Shadowsocks,
+you must set different key combination for each instance.
 
-* [Windows] / [OS X]
-* [Android] / [iOS]
-* [OpenWRT]
+##### How to input?
 
-Use GUI clients on your local PC/phones. Check the README of your client
-for more information.
+1. Put focus in the corresponding textbox.
+2. Press the key combination that you want to use.
+3. Release all keys when you think it is ready.
+4. Your input appears in the textbox.
 
-Documentation
--------------
+##### How to change?
 
-You can find all the documentation in the [Wiki].
+1. Put focus in the corresponding textbox.
+2. Press BackSpace key to clear content.
+3. Re-input new key combination.
 
-License
--------
+##### How to deactivate?
 
-Copyright 2015 clowwindy
+1. Clear content in the textbox that you want to deactivate,
+if you want to deactivate all, please clear all textboxes.
+2. Press OK button to confirm.
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may
-not use this file except in compliance with the License. You may obtain
-a copy of the License at
+##### Meaning of label color
 
-    http://www.apache.org/licenses/LICENSE-2.0
+- Green: This key combination is not occupied by other programs and register successfully.
+- Yellow: This key combination is occupied by other programs and you have to change to another one.
+- Transparent without color: The initial status.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-License for the specific language governing permissions and limitations
-under the License.
+#### Server Configuration
 
-Bugs and Issues
-----------------
+Please visit [Servers] for more information.
 
-* [Troubleshooting]
-* [Issue Tracker]
-* [Mailing list]
+#### Develop
 
+[Visual Studio 2015] & [.NET Framework 4.6.2 Developer Pack] are required.
+
+#### License
+
+GPLv3
 
 
-[Android]:           https://github.com/shadowsocks/shadowsocks-android
-[Build Status]:      https://img.shields.io/travis/shadowsocks/shadowsocks/master.svg?style=flat
-[Configuration]:     https://github.com/shadowsocks/shadowsocks/wiki/Configuration-via-Config-File
-[Coverage Status]:   https://jenkins.shadowvpn.org/result/shadowsocks
-[Coverage]:          https://jenkins.shadowvpn.org/job/Shadowsocks/ws/PYENV/py34/label/linux/htmlcov/index.html
-[Debian sid]:        https://packages.debian.org/unstable/python/shadowsocks
-[iOS]:               https://github.com/shadowsocks/shadowsocks-iOS/wiki/Help
-[Issue Tracker]:     https://github.com/shadowsocks/shadowsocks/issues?state=open
-[Install Server on Windows]: https://github.com/shadowsocks/shadowsocks/wiki/Install-Shadowsocks-Server-on-Windows
-[Mailing list]:      https://groups.google.com/group/shadowsocks
-[OpenWRT]:           https://github.com/shadowsocks/openwrt-shadowsocks
-[OS X]:              https://github.com/shadowsocks/shadowsocks-iOS/wiki/Shadowsocks-for-OSX-Help
-[PyPI]:              https://pypi.python.org/pypi/shadowsocks
-[PyPI version]:      https://img.shields.io/pypi/v/shadowsocks.svg?style=flat
-[Travis CI]:         https://travis-ci.org/shadowsocks/shadowsocks
-[Troubleshooting]:   https://github.com/shadowsocks/shadowsocks/wiki/Troubleshooting
-[Wiki]:              https://github.com/shadowsocks/shadowsocks/wiki
-[Windows]:           https://github.com/shadowsocks/shadowsocks-csharp
+[Appveyor]:       https://ci.appveyor.com/project/celeron533/shadowsocks-windows
+[Build Status]:   https://ci.appveyor.com/api/projects/status/tfw57q6eecippsl5/branch/master?svg=true
+[latest release]: https://github.com/shadowsocks/shadowsocks-csharp/releases
+[GFWList]:        https://github.com/gfwlist/gfwlist
+[Servers]:        https://github.com/shadowsocks/shadowsocks/wiki/Ports-and-Clients#linux--server-side
+[中文说明]:       https://github.com/shadowsocks/shadowsocks-windows/wiki/Shadowsocks-Windows-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E
+[.NET Framework 4.6.2]: https://www.microsoft.com/en-US/download/details.aspx?id=53344
+[Visual Studio 2015]: https://www.visualstudio.com/downloads/
+[.NET Framework 4.6.2 Developer Pack]: https://www.microsoft.com/download/details.aspx?id=53321
